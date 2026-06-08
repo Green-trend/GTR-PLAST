@@ -27,25 +27,24 @@
   font-style: normal;
   font-display: swap;
 }
-/* Aplicación a títulos grandes (h1, h2 grandes) */
+/* Aplicación a títulos grandes */
 h1, .hero-content h1, .section-title, .modal-header h2 {
   font-family: "Fivo Sans Heavy", "Inter", sans-serif;
   font-weight: 900;
 }
 
-/* Títulos medianos (h2, h3, .badge, .resin-title, .faq-question, etc.) */
+/* Títulos medianos */
 h2, h3, .badge, .resin-title, .faq-question, .cta, .btn-download, .submit-btn, .hero-btn, .nav-links a {
   font-family: "Fivo Sans Regular", "Inter", sans-serif;
   font-weight: 400;
 }
 
-/* Textos generales (párrafos, listas, etc.) */
+/* Textos generales */
 body, p, .subhead, .spec-list li, .corporate-card p, .testimonial-card p, .faq-answer, .footer-col p, .footer-col a, .legal-center a, .small-note, .modal-body p, .cookie-banner p {
   font-family: "Fivo Sans Light", "Inter", sans-serif;
   font-weight: 300;
 }
 
-/* Ajuste para mantener la legibilidad en botones y elementos interactivos (opcional) */
 button, input, select, textarea {
   font-family: "Fivo Sans Regular", "Inter", sans-serif;
 }
@@ -108,6 +107,7 @@ body {
   justify-content: center;
   text-align: center;
   background: linear-gradient(rgba(26, 52, 58, 0.611), rgba(10, 43, 51, 0.9)), url("assets/img/gppsazul.jpeg");
+  background-position: center;
   background-size: cover;
   background-attachment: fixed;
   padding: 2rem;
@@ -185,218 +185,196 @@ body {
   overflow: hidden;
 }
 
-/* Materiales */
+/* Materiales (sección general) */
 .materials-section {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-.material-card {
+/* ========== TABLA DE MATERIALES (ESCRITORIO) ========== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 1rem;
+  border: 1px solid #3B5257;
+}
+
+.materials-table {
+  width: 100%;
+  border-collapse: collapse;
   background: #132E38;
-  border-radius: 1.8rem;
-  margin-bottom: 3rem;
-  border: 1px solid #3B5257;
-  overflow: hidden;
-}
-
-.two-columns {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.info-side {
-  flex: 1.2;
-  min-width: 280px;
-  padding: 2rem;
-  background: #0F2A33;
-}
-
-.badge {
-  background: #1D4A55;
-  padding: 0.3rem 1rem;
-  border-radius: 40px;
-  display: inline-block;
-  margin-bottom: 1rem;
-  font-size: 0.7rem;
-}
-
-h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-h2 .accent {
-  color: #2DCC8A;
-}
-
-.subhead {
-  font-size: 0.9rem;
-  color: #A8C0C5;
-  border-left: 3px solid #2DCC8A;
-  padding-left: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.specs-container {
-  background: #1A3D48;
-  border-radius: 1.2rem;
-  padding: 1.2rem;
-  margin: 1.5rem 0;
-}
-
-.resin-switch {
-  background: #0F2A33;
-  border-radius: 60px;
-  display: inline-flex;
-  padding: 0.2rem;
-  margin-bottom: 1rem;
-  border: 1px solid #3B5257;
-}
-
-.resin-option {
-  background: transparent;
-  border: none;
-  padding: 0.4rem 1.2rem;
-  border-radius: 40px;
-  font-weight: 500;
-  cursor: pointer;
-  color: #C0D6DB;
-  transition: 0.2s;
-}
-
-.resin-option.active {
-  background: #2DCC8A;
-  color: #0A2B33;
-}
-
-.resin-dynamic {
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #3B5257;
-}
-
-.resin-title {
-  font-weight: 600;
-  display: block;
-  margin-bottom: 0.2rem;
-}
-
-.spec-list {
-  list-style: none;
-}
-
-.spec-list li {
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-}
-
-.spec-list li strong {
-  min-width: 110px;
-  display: inline-block;
-}
-
-.button-group {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.cta, .btn-download {
-  flex: 1;
-  background: #1D4A55;
-  border: 1px solid #3B5257;
+  font-family: "Fivo Sans Light", "Inter", sans-serif;
   color: #E5E9EC;
-  padding: 0.7rem 1rem;
-  border-radius: 60px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.2s;
-  text-align: center;
-  font-family: inherit;
+  min-width: 900px;
 }
 
-.cta:hover, .btn-download:hover {
+.materials-table thead {
+  background: #1A3D48;
+}
+
+.materials-table th {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  font-weight: 600;
+  font-family: "Fivo Sans Regular", sans-serif;
+  color: #2DCC8A;
+  border-bottom: 2px solid #2DCC8A;
+  white-space: nowrap;
+}
+
+.materials-table td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #3B5257;
+  vertical-align: middle;
+}
+
+.materials-table tbody tr {
+  transition: background 0.2s;
+}
+
+.materials-table tbody tr:hover {
+  background: #0F2A33;
+}
+
+.material-thumb {
+  width: 60px;
+  height: 45px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #3B5257;
+  display: block;
+  cursor: pointer;
+}
+
+.table-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-table {
+  padding: 0.4rem 1rem;
+  border-radius: 40px;
+  border: 1px solid #3B5257;
+  background: #1D4A55;
+  color: #E5E9EC;
+  font-family: "Fivo Sans Regular", sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.btn-table:hover {
   background: #2DCC8A;
   border-color: #2DCC8A;
   color: #0A2B33;
 }
 
-.carousel-side {
-  flex: 1.5;
-  min-width: 300px;
-  padding: 2rem;
-  background: #0F2A33;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.slider-container {
-  width: 100%;
-  max-width: 500px;
-}
-
-.slider-viewport {
-  overflow: hidden;
-  border-radius: 1.2rem;
-  background: #1A3D48;
-  aspect-ratio: 4/3;
-}
-
-.slide-img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-
-/* ========== CONTROLES DEL CARRUSEL (flechas centradas) ========== */
-.slider-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1.2rem;
-}
-
-.slider-btn {
-  background: #1D4A55;
-  border: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  font-size: 1.3rem;
-  cursor: pointer;
-  color: #CCD6D9;
-  transition: 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.slider-btn:hover {
+.btn-table.primary {
   background: #2DCC8A;
   color: #0A2B33;
-  transform: scale(1.05);
+  border-color: #2DCC8A;
 }
 
-.dot.active-dot {
-  background: #2DCC8A;
-  width: 20px;
+.btn-table.primary:hover {
+  background: #47E6A2;
+  border-color: #47E6A2;
 }
 
-.footnote {
-  font-size: 0.65rem;
-  color: #8AA6AC;
-  text-align: center;
-  margin-top: 1rem;
+.materials-table ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
+.materials-table li {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.4;
+}
+
+.materials-table li strong {
+  display: inline-block;
+  min-width: 100px;
+}
+
+/* ========== TABLA COMO TARJETAS EN MÓVILES ========== */
+@media (max-width: 768px) {
+  .table-responsive {
+    border: none;
+    overflow-x: visible;
+  }
+  .materials-table {
+    min-width: auto;
+    background: transparent;
+  }
+  .materials-table thead {
+    display: none;
+  }
+  .materials-table tbody,
+  .materials-table tr,
+  .materials-table td {
+    display: block;
+    width: 100%;
+  }
+  .materials-table tr {
+    background: #132E38;
+    border: 1px solid #3B5257;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  .materials-table td {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid #2A4B54;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    background: none;
+  }
+  .materials-table td:last-child {
+    border-bottom: none;
+  }
+  .materials-table td::before {
+    content: attr(data-label);
+    font-family: "Fivo Sans Regular", sans-serif;
+    font-weight: 600;
+    color: #2DCC8A;
+    margin-right: 1rem;
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+  .materials-table td ul {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+  }
+  .materials-table td ul li {
+    margin-bottom: 0.2rem;
+  }
+  .material-thumb {
+    width: 80px;
+    height: 60px;
+  }
+  .table-actions {
+    flex-direction: row;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .btn-table {
+    flex: 1;
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    text-align: center;
+  }
+}
 /* Testimonios */
 .testimonials {
   background: #0A2B33;
@@ -573,7 +551,7 @@ footer {
   font-size: 0.75rem;
 }
 
-/* Modal */
+/* Modal genérico */
 .modal {
   display: none;
   position: fixed;
@@ -612,6 +590,110 @@ footer {
 
 .modal-body {
   padding: 1.5rem;
+}
+
+/* ========== MODAL DE IMAGEN (CON FLECHAS LATERALES Y X A LA IZQUIERDA) ========== */
+.image-modal {
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal .modal-content {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+  width: auto;
+  background: transparent;
+  border: none;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal .close-modal {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 2.5rem;
+  color: #fff;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.image-viewer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  max-height: 90vh;
+}
+
+.full-image {
+  display: block;
+  max-width: 90vw;
+  max-height: 85vh;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+/* Botones laterales */
+.side-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 5;
+  backdrop-filter: blur(2px);
+}
+
+.side-btn:hover {
+  background: #2DCC8A;
+  border-color: #2DCC8A;
+  color: #0A2B33;
+}
+
+.side-btn.left {
+  left: -25px;
+}
+
+.side-btn.right {
+  right: -25px;
+}
+
+/* Contador de imágenes */
+.counter {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-family: "Fivo Sans Regular", sans-serif;
+  z-index: 5;
 }
 
 /* Botón volver arriba */
@@ -672,13 +754,11 @@ footer {
     transform: translateY(0);
   }
 }
-/* Clase que se aplicará a los elementos cuando sean visibles */
 .scroll-animate {
-  opacity: 0; /* inicialmente invisible */
+  opacity: 0;
   animation: fadeInUp 0.6s ease forwards;
 }
 
-/* Opcional: retrasos para que no salgan todos a la vez */
 .scroll-animate.delay-1 {
   animation-delay: 0.1s;
 }
@@ -717,5 +797,18 @@ footer {
   }
   .button-group {
     flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .side-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  .side-btn.left {
+    left: -15px;
+  }
+  .side-btn.right {
+    right: -15px;
   }
 }/*# sourceMappingURL=styles.css.map */
