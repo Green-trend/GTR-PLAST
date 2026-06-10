@@ -90,6 +90,7 @@ function populateMaterialsTable() {
     const firstImage = data.slides && data.slides.length > 0 ? data.slides[0] : 'assets/img/placeholder.jpg';
 
     const row = document.createElement('tr');
+    row.setAttribute('data-animate', '');
 
     // Nombre
     const tdName = document.createElement('td');
@@ -165,7 +166,7 @@ function populateMaterialsTable() {
   }
 }
 
-// ==================== LIGHTBOX PARA IMÁGENES (CON FLECHAS LATERALES) ====================
+// ==================== LIGHTBOX PARA IMÁGENES ====================
 let currentMaterialIndex = 0;
 let currentSlideIndex = 0;
 
@@ -319,22 +320,87 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ========== ANIMACIÓN AL HACER SCROLL ==========
-  const elementosAAminar = document.querySelectorAll(
-    '.hero, .navbar,.material-card, .corporate-card, .testimonial-card, .faq-item, .contact-form-section, .legal-center'
-  );
+  // ========== SISTEMA UNIFICADO DE SCROLL REVEAL ==========
+  const observerOptions = {
+    threshold: 0.15,
+    rootMargin: '0px 0px -40px 0px'
+  };
 
-  const observerAnimacion = new IntersectionObserver((entries) => {
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('scroll-animate');
-        observerAnimacion.unobserve(entry.target);
+        const el = entry.target;
+
+        // Si es un elemento con data-animate, añadimos clase general scroll-animate
+        if (el.hasAttribute('data-animate')) {
+          el.classList.add('scroll-animate');
+        }
+
+        // Elementos específicos que necesitan la clase scroll-animate
+        const specificSelectors = [
+          '.hero-content',
+          '.section-title',
+          '.corporate-card',
+          '.pdf-download-section',
+          '.testimonial-card',
+          '.faq-item',
+          '.origen-header',
+          '.origen-benefits',
+          '.benefit-item',
+          '.contact-form-section'
+        ];
+
+        specificSelectors.forEach(sel => {
+          if (el.matches(sel)) {
+            el.classList.add('scroll-animate');
+          }
+        });
+
+        // Tratamiento especial para las tarjetas de origen
+        if (el.classList.contains('origen-card')) {
+          el.classList.add('card-visible');
+          // Activar los pasos después de que la tarjeta sea visible
+          setTimeout(() => {
+            el.classList.add('steps-visible');
+          }, 300);
+        }
+
+        revealObserver.unobserve(el);
       }
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -10px 0px'
-  });
+  }, observerOptions);
 
-  elementosAAminar.forEach(el => observerAnimacion.observe(el));
+  // Seleccionar todos los elementos que queremos animar
+  const elementsToReveal = document.querySelectorAll(`
+    [data-animate],
+    .hero-content,
+    .section-title,
+    .corporate-card,
+    .pdf-download-section,
+    .testimonial-card,
+    .faq-item,
+    .origen-header,
+    .origen-card,
+    .origen-benefits,
+    .benefit-item,
+    .contact-form-section
+  `);
+
+  elementsToReveal.forEach(el => revealObserver.observe(el));
+
+  // ========== SCROLL SUAVE PARA ENLACES DE NAVEGACIÓN ==========
+  const navLinksItems = document.querySelectorAll('.nav-links a');
+  navLinksItems.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          if (navLinks) navLinks.classList.remove('active');
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
 });
