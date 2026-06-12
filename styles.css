@@ -324,6 +324,13 @@ body {
   left: 100%;
 }
 
+/* ========== SECCIÓN PROMOCIONAL ========== */
+.img-promo {
+  width: 100%;
+  height: 100%;
+  border-radius: 4%;
+}
+
 /* ========== CORPORATE ========== */
 .corporate {
   padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 2rem);
@@ -1520,6 +1527,11 @@ footer {
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: var(--shadow-xl);
+  scrollbar-width: none;
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
 }
 
 .modal-header {
@@ -2234,4 +2246,342 @@ footer {
     padding: clamp(0.5rem, 1vw, 0.6rem) clamp(1rem, 2vw, 1.2rem);
     font-size: clamp(0.7rem, 1vw, 0.75rem);
   }
-}/*# sourceMappingURL=styles.css.map */
+}
+/* ========== SECCIÓN PROMOCIONAL HDPE-HMWPE ========== */
+.hdpe-promo-section {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 2rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hdpe-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  background: linear-gradient(135deg, var(--color-dark-card) 0%, #1A3D48 100%);
+  border-radius: 20px;
+  padding: clamp(2rem, 4vw, 4rem);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.hdpe-container.scroll-animate {
+  animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+}
+
+.hdpe-container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(45, 204, 138, 0.1) 0%, transparent 70%);
+  transition: all 0.5s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hdpe-container:hover::before {
+  opacity: 1;
+  top: -25%;
+  right: -25%;
+}
+
+.hdpe-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hdpe-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  color: var(--color-dark-bg);
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(45, 204, 138, 0.3);
+}
+
+.hdpe-title {
+  font-family: "Fivo Sans Heavy", "Inter", sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: #F0F4F5;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+.hdpe-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  word-wrap: break-word;
+}
+
+.hdpe-description {
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  color: var(--color-text-light);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  word-wrap: break-word;
+}
+
+.hdpe-features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.feature {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.feature-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.feature h4 {
+  font-family: "Fivo Sans Regular", "Inter", sans-serif;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin: 0 0 0.5rem 0;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  word-wrap: break-word;
+}
+
+.feature p {
+  font-family: "Fivo Sans Light", "Inter", sans-serif;
+  font-weight: 300;
+  color: var(--color-text-light);
+  margin: 0;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.hdpe-cta-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  color: var(--color-dark-bg);
+  border: none;
+  padding: clamp(0.8rem, 2vw, 1.1rem) clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: 0 10px 30px rgba(45, 204, 138, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  font-family: "Fivo Sans Regular", "Inter", sans-serif;
+}
+
+.hdpe-cta-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.5s ease;
+}
+
+.hdpe-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(45, 204, 138, 0.4);
+}
+
+.hdpe-cta-btn:hover::before {
+  left: 100%;
+}
+
+.hdpe-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hdpe-image-placeholder {
+  width: 100%;
+  height: 280px;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, rgba(45, 204, 138, 0.1) 0%, rgba(45, 204, 138, 0.05) 100%);
+  border: 2px dashed var(--color-primary);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.hdpe-container:hover .hdpe-image-placeholder {
+  border-color: var(--color-primary-light);
+  background: linear-gradient(135deg, rgba(45, 204, 138, 0.15) 0%, rgba(45, 204, 138, 0.08) 100%);
+}
+
+.hdpe-image-icon {
+  font-size: clamp(3rem, 8vw, 5rem);
+  opacity: 0.8;
+}
+
+/* ========== MODAL DE COTIZACIÓN ========== */
+.cotizacion-modal {
+  z-index: 2500;
+}
+
+.cotizacion-modal-content {
+  max-width: 500px;
+  width: 90%;
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.cotizacion-modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.cotizacion-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.cotizacion-form input,
+.cotizacion-form select,
+.cotizacion-form textarea {
+  width: 100%;
+  padding: clamp(0.7rem, 2vw, 1rem);
+  background: rgba(15, 42, 51, 0.8);
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text-primary);
+  font-family: inherit;
+  transition: var(--transition-fast);
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  box-sizing: border-box;
+}
+
+.cotizacion-form input::-moz-placeholder, .cotizacion-form textarea::-moz-placeholder {
+  color: var(--color-text-secondary);
+}
+
+.cotizacion-form input::placeholder,
+.cotizacion-form textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.cotizacion-form input:focus,
+.cotizacion-form select:focus,
+.cotizacion-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: rgb(15, 42, 51);
+  box-shadow: 0 0 0 3px rgba(45, 204, 138, 0.1);
+}
+
+#cotizacion-form-status {
+  text-align: center;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+}
+
+/* ========== RESPONSIVE HDPE ========== */
+@media (max-width: 1024px) {
+  .hdpe-container {
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1.5rem, 3vw, 3rem);
+  }
+  .hdpe-image-placeholder {
+    aspect-ratio: 16/9;
+  }
+}
+@media (max-width: 768px) {
+  .hdpe-container {
+    grid-template-columns: 1fr;
+    padding: clamp(1.5rem, 2vw, 2rem);
+  }
+  .hdpe-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .hdpe-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
+  .hdpe-description {
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  }
+  .hdpe-features {
+    gap: 1rem;
+  }
+  .feature {
+    gap: 0.8rem;
+  }
+  .feature-icon {
+    font-size: 1.5rem;
+  }
+  .hdpe-image-placeholder {
+    aspect-ratio: 1;
+  }
+}
+@media (max-width: 480px) {
+  .hdpe-container {
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+  .hdpe-badge {
+    font-size: 0.7rem;
+    padding: 0.4rem 1rem;
+  }
+  .hdpe-title {
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+  }
+  .hdpe-subtitle {
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  }
+  .hdpe-description {
+    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+  }
+  .feature h4 {
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+  }
+  .feature p {
+    font-size: clamp(0.8rem, 1.2vw, 0.85rem);
+  }
+  .hdpe-cta-btn {
+    width: 100%;
+    padding: clamp(0.7rem, 1.5vw, 0.9rem) clamp(1.2rem, 2vw, 1.5rem);
+    font-size: clamp(0.85rem, 1.5vw, 0.9rem);
+  }
+  .hdpe-image-placeholder {
+    aspect-ratio: 1;
+  }
+  .hdpe-image-icon {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+  }
+}
+/*# sourceMappingURL=styles.css.map */

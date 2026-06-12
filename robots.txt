@@ -1,0 +1,31 @@
+# Robots.txt - Gtr Plast
+# Optimización para buscadores
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /cgi-bin/
+
+# Crawl-delay para no sobrecargar el servidor
+Crawl-delay: 1
+
+# Permitir acceso a assets
+Allow: /assets/
+Allow: /styles.css
+Allow: /script.js
+
+# Sitemap
+Sitemap: https://gtrplast.com/sitemap.xml
+
+# Google específico
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing específico
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

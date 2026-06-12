@@ -146,7 +146,13 @@ function populateMaterialsTable() {
     btnCotizar.className = 'btn-table primary';
     btnCotizar.textContent = '📦 Cotizar';
     btnCotizar.addEventListener('click', () => {
-      alert(`✅ Cotización solicitada para ${materialNames[i]}. Te contactaremos pronto.`);
+      const cotizacionModal = document.getElementById('cotizacionModal');
+      const materialSelect = document.querySelector('#cotizacionForm select[name="material"]');
+      if (cotizacionModal && materialSelect) {
+        materialSelect.value = materialNames[i];
+        cotizacionModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
     });
 
     const btnFicha = document.createElement('button');
@@ -296,6 +302,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Manejador del modal de cotización (complementario al del HTML)
+  const cotizacionModal = document.getElementById('cotizacionModal');
+  const closeCotizacionModal = document.getElementById('closeCotizacionModal');
+  const cotizacionForm = document.getElementById('cotizacionForm');
+  const cotizacionFormStatus = document.getElementById('cotizacion-form-status');
+
+  if (closeCotizacionModal) {
+    closeCotizacionModal.addEventListener('click', () => {
+      if (cotizacionModal) {
+        cotizacionModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
+
+  if (cotizacionModal) {
+    cotizacionModal.addEventListener('click', (e) => {
+      if (e.target === cotizacionModal) {
+        cotizacionModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
+
+  if (cotizacionForm) {
+    cotizacionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(cotizacionForm);
+      try {
+        const response = await fetch(cotizacionForm.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          cotizacionFormStatus.innerHTML = '✅ Cotización enviada. Te contactaremos pronto.';
+          cotizacionFormStatus.style.color = '#2DCC8A';
+          cotizacionForm.reset();
+          setTimeout(() => {
+            if (cotizacionModal) cotizacionModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            cotizacionFormStatus.innerHTML = '';
+          }, 2000);
+        } else {
+          cotizacionFormStatus.innerHTML = '❌ Error al enviar. Intenta de nuevo.';
+          cotizacionFormStatus.style.color = '#FF8A8A';
+        }
+      } catch (error) {
+        cotizacionFormStatus.innerHTML = '❌ Error de conexión. Verifica tu internet.';
+        cotizacionFormStatus.style.color = '#FF8A8A';
+      }
+    });
+  }
+
   // Formspree
   const form = document.getElementById('contactForm');
   if (form) {
@@ -340,6 +400,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const specificSelectors = [
           '.hero-content',
           '.section-title',
+          '.hdpe-promo-section',
+          '.hdpe-container',
           '.corporate-card',
           '.pdf-download-section',
           '.testimonial-card',
@@ -375,6 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
     [data-animate],
     .hero-content,
     .section-title,
+    .hdpe-promo-section,
+    .hdpe-container,
     .corporate-card,
     .pdf-download-section,
     .testimonial-card,
