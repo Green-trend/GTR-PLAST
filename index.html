@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Q2Q423DP7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5Q2Q423DP7');
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Gtr Plast - Comercializadora de resinas plasticas de alto rendimiento. HDPE, PP, PET y mas. Calidad, sostenibilidad e innovacion para tu industria en Queretaro.">
@@ -59,6 +68,10 @@
       <img class="logo-img" src="assets/img/logo.png" alt="Gtr Plast logo" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2050%22%3E%3Ctext%20x%3D%2210%22%20y%3D%2235%22%20font-size%3D%2224%22%20fill%3D%22%232DCC8A%22%3EGtr%20Plast%3C%2Ftext%3E%3C%2Fsvg%3E'">
     </a>
     <div class="menu-icon" id="menuIcon">☰</div>
+    <!-- Botón de cambio de tema para escritorio (se oculta en móvil) -->
+    <button class="theme-toggle desktop-theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <span class="theme-icon">🌙</span>
+    </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#materiales">Materiales</a></li>
@@ -67,6 +80,12 @@
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#origen">Origen del material</a></li>
       <li><a href="#contacto">Contacto</a></li>
+      <!-- Botón de tema para móviles (dentro del menú hamburguesa) -->
+      <li class="mobile-theme-item">
+        <button class="theme-toggle mobile-theme-toggle" aria-label="Cambiar tema">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </li>
     </ul>
   </nav>
 
@@ -84,28 +103,28 @@
     <div class="hdpe-container">
       <div class="hdpe-content">
         <div class="hdpe-badge">Material destacado</div>
-        <h2 class="hdpe-title">HDPE - HMWPE</h2>
-        <p class="hdpe-subtitle">Polietileno de Alto Peso Molecular</p>
-        <p class="hdpe-description">Nuestro HDPE-HMWPE ofrece una combinación excepcional de resistencia, durabilidad y versatilidad. Ideal para aplicaciones que requieren alto rendimiento y confiabilidad en entornos exigentes.</p>
+        <h2 class="hdpe-title">ABS MOLIDO NEGRO</h2>
+        <p class="hdpe-subtitle">Alta resistencia al impacto, rigidez y estabilidad dimensional.</p>
+        <p class="hdpe-description">Nuestro El ABS (Acrilonitrilo Butadieno Estireno) es un termoplástico de ingeniería ampliamente utilizado en la industria debido a su excelente equilibrio entre costo, resistencia y facilidad de procesamiento.</p>
         <div class="hdpe-features">
           <div class="feature">
             <h4>Alta Resistencia</h4>
-            <p>Soporta cargas y tensiones extremas sin comprometer su integridad estructural.</p>
+            <p>Soporta golpes fuertes y mantiene su tenacidad incluso en temperaturas bajas gracias a su contenido de butadieno.</p>
           </div>
           <div class="feature">
-            <h4>Versatilidad</h4>
-            <p>Compatible con múltiples procesos de transformación y aplicaciones industriales.</p>
+            <h4>Dureza y rigidez</h4>
+            <p>Aportadas por los componentes de acrilonitrilo y estireno.</p>
           </div>
           <div class="feature">
-            <h4>Sostenible</h4>
-            <p>Disponible en opciones recicladas de alta calidad sin comprometer el rendimiento.</p>
+            <h4>Estabilidad dimensional</h4>
+            <p>Conserva su forma original sin deformarse fácilmente ante variaciones moderadas de temperatura o humedad.</p>
           </div>
         </div>
-        <button class="hdpe-cta-btn" id="hdpeCotizarBtn"> Cotizar HDPE-HMWPE</button>
+        <button class="hdpe-cta-btn" id="hdpeCotizarBtn"> Cotizar ABS MOLIDO NEGRO</button>
       </div>
-      <div class="hdpe-image" width="150px">
+      <div class="hdpe-image" width="100px">
         <div class="hdpe-image-placeholder">
-          <img class="img-promo" src="assets/img/tarima-molido.png"  alt="tarima-molido">
+          <img class="img-promo" src="assets/img/abs-negro-molido.jpeg"  alt="abs-negro-molido">
         </div>
       </div>
     </div>
@@ -242,7 +261,7 @@
       <!-- TARJETA 1: Proceso Propio -->
       <div class="origen-card" data-card="1">
         <div class="card-header">
-          <div class="card-icon">🏭</div>
+          <div class="card-icon"></div>
           <h3>Recolección & Procesamiento Propio</h3>
           <p class="card-badge">Proceso Interno</p>
         </div>
@@ -319,7 +338,7 @@
       <!-- TARJETA 2: Compra a Terceros -->
       <div class="origen-card" data-card="2">
         <div class="card-header">
-          <div class="card-icon">🤝</div>
+          <div class="card-icon"></div>
           <h3>Compra a Terceros </h3>
           <p class="card-badge">Proveedores previamente verificados</p>
         </div>

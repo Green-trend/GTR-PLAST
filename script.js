@@ -391,12 +391,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         const el = entry.target;
 
-        // Si es un elemento con data-animate, añadimos clase general scroll-animate
         if (el.hasAttribute('data-animate')) {
           el.classList.add('scroll-animate');
         }
 
-        // Elementos específicos que necesitan la clase scroll-animate
         const specificSelectors = [
           '.hero-content',
           '.section-title',
@@ -418,10 +416,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 
-        // Tratamiento especial para las tarjetas de origen
         if (el.classList.contains('origen-card')) {
           el.classList.add('card-visible');
-          // Activar los pasos después de que la tarjeta sea visible
           setTimeout(() => {
             el.classList.add('steps-visible');
           }, 300);
@@ -432,7 +428,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, observerOptions);
 
-  // Seleccionar todos los elementos que queremos animar
   const elementsToReveal = document.querySelectorAll(`
     [data-animate],
     .hero-content,
@@ -467,4 +462,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+});
+
+// ==================== CAMBIO DE TEMA (SOPORTE MÚLTIPLES BOTONES) ====================
+const themeToggles = document.querySelectorAll('.theme-toggle');
+const themeIcons = document.querySelectorAll('.theme-icon');
+
+function setTheme(theme) {
+    if (theme === 'light') {
+        document.body.classList.add('light-theme');
+        themeIcons.forEach(icon => icon.textContent = '☀️');
+        localStorage.setItem('theme', 'light');
+    } else {
+        document.body.classList.remove('light-theme');
+        themeIcons.forEach(icon => icon.textContent = '🌙');
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// Por defecto: oscuro
+const savedTheme = localStorage.getItem('theme') || 'dark';
+setTheme(savedTheme);
+
+// Asignar el evento click a cada botón
+themeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        const isLight = document.body.classList.contains('light-theme');
+        setTheme(isLight ? 'dark' : 'light');
+    });
 });
