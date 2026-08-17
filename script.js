@@ -464,30 +464,138 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ==================== CAMBIO DE TEMA (SOPORTE MÚLTIPLES BOTONES) ====================
-const themeToggles = document.querySelectorAll('.theme-toggle');
-const themeIcons = document.querySelectorAll('.theme-icon');
+// ==================== GALERÍA CARRUSEL AUTOMÁTICO ====================
+function initGaleria() {
+  const track = document.getElementById('galeriaTrack');
+  const dotsContainer = document.getElementById('galeriaDots');
+  const prevBtn = document.getElementById('prevGaleria');
+  const nextBtn = document.getElementById('nextGaleria');
+  
+  if (!track || !dotsContainer) return;
 
-function setTheme(theme) {
-    if (theme === 'light') {
-        document.body.classList.add('light-theme');
-        themeIcons.forEach(icon => icon.textContent = '☀️');
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.body.classList.remove('light-theme');
-        themeIcons.forEach(icon => icon.textContent = '🌙');
-        localStorage.setItem('theme', 'dark');
+  const slides = track.querySelectorAll('.galeria-slide');
+  const totalSlides = slides.length;
+  let currentIndex = 0;
+  let autoSlideInterval;
+
+  // Crear indicadores (dots)
+  slides.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.className = 'galeria-dot' + (index === 0 ? ' active' : '');
+    dot.dataset.index = index;
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll('.galeria-dot');
+
+  // ========== FUNCIÓN MEJORADA ==========
+  function goToSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    
+    currentIndex = index;
+    
+    // Obtener el ancho del slide actual
+    const slideWidth = slides[0].offsetWidth;
+    
+    // Aplicar el desplazamiento exacto
+    track.style.transform = 'translateX(-' + (currentIndex * slideWidth) + 'px)';
+    
+    // Actualizar dots
+    dots.forEach((dot, i) => {
+      if (i === currentIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+
+  // Función para siguiente slide
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+
+  // Función para anterior slide
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
+
+  // Iniciar auto-reproducción
+  function startAutoSlide() {
+    stopAutoSlide();
+    autoSlideInterval = setInterval(nextSlide, 5000);
+  }
+
+  // Detener auto-reproducción
+  function stopAutoSlide() {
+    if (autoSlideInterval) {
+      clearInterval(autoSlideInterval);
+      autoSlideInterval = null;
     }
+  }
+
+  // Reiniciar auto-reproducción (al interactuar)
+  function resetAutoSlide() {
+    startAutoSlide();
+  }
+
+  // ========== RECALCULAR EN RESIZE ==========
+  function recalculateSlide() {
+    // Ir al slide actual con el nuevo tamaño
+    goToSlide(currentIndex);
+  }
+
+  // Eventos de los botones
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      prevSlide();
+      resetAutoSlide();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      nextSlide();
+      resetAutoSlide();
+    });
+  }
+
+  // Pausar auto-reproducción al pasar el mouse
+  var carousel = document.querySelector('.galeria-carousel');
+  if (carousel) {
+    carousel.addEventListener('mouseenter', stopAutoSlide);
+    carousel.addEventListener('mouseleave', startAutoSlide);
+    
+    // Para dispositivos táctiles
+    carousel.addEventListener('touchstart', stopAutoSlide, { passive: true });
+    carousel.addEventListener('touchend', startAutoSlide, { passive: true });
+  }
+
+  // ========== RECALCULAR AL CAMBIAR TAMAÑO ==========
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(recalculateSlide, 200);
+  });
+
+  // Iniciar auto-reproducción
+  startAutoSlide();
+
+  return { 
+    goToSlide: goToSlide, 
+    nextSlide: nextSlide, 
+    prevSlide: prevSlide, 
+    startAutoSlide: startAutoSlide, 
+    stopAutoSlide: stopAutoSlide 
+  };
 }
 
-// Por defecto: oscuro
-const savedTheme = localStorage.getItem('theme') || 'dark';
-setTheme(savedTheme);
-
-// Asignar el evento click a cada botón
-themeToggles.forEach(toggle => {
-    toggle.addEventListener('click', () => {
-        const isLight = document.body.classList.contains('light-theme');
-        setTheme(isLight ? 'dark' : 'light');
-    });
+// Inicializar la galería cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+  // Esperar un momento para asegurar que la galería existe
+  setTimeout(function() {
+    initGaleria();
+  }, 100);
 });
