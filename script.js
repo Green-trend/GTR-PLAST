@@ -245,71 +245,228 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ==================== INICIALIZACIÓN GENERAL ====================
-document.addEventListener('DOMContentLoaded', () => {
-  // Generar tabla de materiales
-  populateMaterialsTable();
+// ==================== GALERÍA CARRUSEL AUTOMÁTICO ====================
+function initGaleria() {
+  const track = document.getElementById('galeriaTrack');
+  const dotsContainer = document.getElementById('galeriaDots');
+  const prevBtn = document.getElementById('prevGaleria');
+  const nextBtn = document.getElementById('nextGaleria');
+  
+  if (!track || !dotsContainer) return;
 
-  // Menú hamburguesa
-  const menuIcon = document.getElementById('menuIcon');
-  const navLinks = document.getElementById('navLinks');
-  if (menuIcon) menuIcon.addEventListener('click', () => navLinks.classList.toggle('active'));
+  const slides = track.querySelectorAll('.galeria-slide');
+  const totalSlides = slides.length;
+  let currentIndex = 0;
+  let autoSlideInterval;
 
-  // Botón volver arriba
-  const backBtn = document.getElementById('backToTop');
-  if (backBtn) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) backBtn.classList.add('show');
-      else backBtn.classList.remove('show');
+  // Crear indicadores (dots)
+  slides.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.className = 'galeria-dot' + (index === 0 ? ' active' : '');
+    dot.dataset.index = index;
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll('.galeria-dot');
+
+  function goToSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    
+    currentIndex = index;
+    
+    const slideWidth = slides[0].offsetWidth;
+    track.style.transform = 'translateX(-' + (currentIndex * slideWidth) + 'px)';
+    
+    dots.forEach((dot, i) => {
+      if (i === currentIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
     });
-    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-  // Carrusel de testimonios
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
+
+  function startAutoSlide() {
+    stopAutoSlide();
+    autoSlideInterval = setInterval(nextSlide, 5000);
+  }
+
+  function stopAutoSlide() {
+    if (autoSlideInterval) {
+      clearInterval(autoSlideInterval);
+      autoSlideInterval = null;
+    }
+  }
+
+  function resetAutoSlide() {
+    startAutoSlide();
+  }
+
+  function recalculateSlide() {
+    goToSlide(currentIndex);
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      prevSlide();
+      resetAutoSlide();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      nextSlide();
+      resetAutoSlide();
+    });
+  }
+
+  var carousel = document.querySelector('.galeria-carousel');
+  if (carousel) {
+    carousel.addEventListener('mouseenter', stopAutoSlide);
+    carousel.addEventListener('mouseleave', startAutoSlide);
+    carousel.addEventListener('touchstart', stopAutoSlide, { passive: true });
+    carousel.addEventListener('touchend', startAutoSlide, { passive: true });
+  }
+
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(recalculateSlide, 200);
+  });
+
+  startAutoSlide();
+
+  return { 
+    goToSlide: goToSlide, 
+    nextSlide: nextSlide, 
+    prevSlide: prevSlide, 
+    startAutoSlide: startAutoSlide, 
+    stopAutoSlide: stopAutoSlide 
+  };
+}
+
+// ==================== CAMBIO DE TEMA (CORREGIDO) ====================
+function initTheme() {
+  const themeToggles = document.querySelectorAll('.theme-toggle');
+  const themeIcons = document.querySelectorAll('.theme-icon');
+
+  function setTheme(theme) {
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+      themeIcons.forEach(icon => icon.textContent = '☀️');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.classList.remove('light-theme');
+      themeIcons.forEach(icon => icon.textContent = '🌙');
+      localStorage.setItem('theme', 'dark');
+    }
+  }
+
+  // Cargar tema guardado o por defecto (oscuro)
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  setTheme(savedTheme);
+
+  // Asignar eventos a todos los botones de tema
+  themeToggles.forEach(toggle => {
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault(); // Por si acaso
+      const isLight = document.body.classList.contains('light-theme');
+      setTheme(isLight ? 'dark' : 'light');
+    });
+  });
+}
+
+// ==================== INICIALIZACIÓN GENERAL (UNIFICADA) ====================
+document.addEventListener('DOMContentLoaded', function() {
+  // 1. Inicializar tema (primero, para que todo lo demás herede el tema)
+  initTheme();
+
+  // 2. Generar tabla de materiales
+  populateMaterialsTable();
+
+  // 3. Menú hamburguesa
+  const menuIcon = document.getElementById('menuIcon');
+  const navLinks = document.getElementById('navLinks');
+  if (menuIcon) {
+    menuIcon.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+    });
+  }
+
+  // 4. Botón volver arriba
+  const backBtn = document.getElementById('backToTop');
+  if (backBtn) {
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        backBtn.classList.add('show');
+      } else {
+        backBtn.classList.remove('show');
+      }
+    });
+    backBtn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // 5. Carrusel de testimonios
   const track = document.getElementById('testimonialTrack');
   const prevTesti = document.querySelector('.prev-testi');
   const nextTesti = document.querySelector('.next-testi');
   if (track && prevTesti && nextTesti) {
     let testiIndex = 0;
     const totalTesti = track.children.length;
-    const updateTesti = () => track.style.transform = `translateX(-${testiIndex * 100}%)`;
-    nextTesti.addEventListener('click', () => {
+    function updateTesti() {
+      track.style.transform = 'translateX(-' + (testiIndex * 100) + '%)';
+    }
+    nextTesti.addEventListener('click', function() {
       if (testiIndex < totalTesti - 1) testiIndex++;
       updateTesti();
     });
-    prevTesti.addEventListener('click', () => {
+    prevTesti.addEventListener('click', function() {
       if (testiIndex > 0) testiIndex--;
       updateTesti();
     });
   }
 
-  // FAQ acordeón
-  document.querySelectorAll('.faq-question').forEach(q => {
-    q.addEventListener('click', () => {
-      const parent = q.parentElement;
+  // 6. FAQ acordeón
+  document.querySelectorAll('.faq-question').forEach(function(q) {
+    q.addEventListener('click', function() {
+      var parent = this.parentElement;
       parent.classList.toggle('active');
     });
   });
 
-  // Cookie banner
+  // 7. Cookie banner
   const cookieBanner = document.getElementById('cookieBanner');
   const acceptCookies = document.getElementById('acceptCookies');
   if (cookieBanner && acceptCookies) {
-    if (!localStorage.getItem('cookiesAccepted')) cookieBanner.style.display = 'flex';
-    acceptCookies.addEventListener('click', () => {
+    if (!localStorage.getItem('cookiesAccepted')) {
+      cookieBanner.style.display = 'flex';
+    }
+    acceptCookies.addEventListener('click', function() {
       localStorage.setItem('cookiesAccepted', 'true');
       cookieBanner.style.display = 'none';
     });
   }
 
-  // Manejador del modal de cotización (complementario al del HTML)
+  // 8. Modal de cotización (eventos ya están en el HTML, pero reforzamos)
   const cotizacionModal = document.getElementById('cotizacionModal');
   const closeCotizacionModal = document.getElementById('closeCotizacionModal');
   const cotizacionForm = document.getElementById('cotizacionForm');
   const cotizacionFormStatus = document.getElementById('cotizacion-form-status');
 
   if (closeCotizacionModal) {
-    closeCotizacionModal.addEventListener('click', () => {
+    closeCotizacionModal.addEventListener('click', function() {
       if (cotizacionModal) {
         cotizacionModal.style.display = 'none';
         document.body.style.overflow = 'auto';
@@ -318,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (cotizacionModal) {
-    cotizacionModal.addEventListener('click', (e) => {
+    cotizacionModal.addEventListener('click', function(e) {
       if (e.target === cotizacionModal) {
         cotizacionModal.style.display = 'none';
         document.body.style.overflow = 'auto';
@@ -327,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (cotizacionForm) {
-    cotizacionForm.addEventListener('submit', async (e) => {
+    cotizacionForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       const data = new FormData(cotizacionForm);
       try {
@@ -340,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
           cotizacionFormStatus.innerHTML = '✅ Cotización enviada. Te contactaremos pronto.';
           cotizacionFormStatus.style.color = '#2DCC8A';
           cotizacionForm.reset();
-          setTimeout(() => {
+          setTimeout(function() {
             if (cotizacionModal) cotizacionModal.style.display = 'none';
             document.body.style.overflow = 'auto';
             cotizacionFormStatus.innerHTML = '';
@@ -356,15 +513,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Formspree
+  // 9. Formulario de contacto
   const form = document.getElementById('contactForm');
   if (form) {
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       const status = document.getElementById('form-status');
       const data = new FormData(form);
       try {
-        const response = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
         if (response.ok) {
           status.innerHTML = '✅ Mensaje enviado. Te contactaremos pronto.';
           status.style.color = '#2DCC8A';
@@ -380,14 +541,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ========== SISTEMA UNIFICADO DE SCROLL REVEAL ==========
+  // 10. Scroll reveal
   const observerOptions = {
     threshold: 0.15,
     rootMargin: '0px 0px -40px 0px'
   };
 
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  const revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
       if (entry.isIntersecting) {
         const el = entry.target;
 
@@ -410,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
           '.contact-form-section'
         ];
 
-        specificSelectors.forEach(sel => {
+        specificSelectors.forEach(function(sel) {
           if (el.matches(sel)) {
             el.classList.add('scroll-animate');
           }
@@ -418,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (el.classList.contains('origen-card')) {
           el.classList.add('card-visible');
-          setTimeout(() => {
+          setTimeout(function() {
             el.classList.add('steps-visible');
           }, 300);
         }
@@ -445,16 +606,18 @@ document.addEventListener('DOMContentLoaded', () => {
     .contact-form-section
   `);
 
-  elementsToReveal.forEach(el => revealObserver.observe(el));
+  elementsToReveal.forEach(function(el) {
+    revealObserver.observe(el);
+  });
 
-  // ========== SCROLL SUAVE PARA ENLACES DE NAVEGACIÓN ==========
-  const navLinksItems = document.querySelectorAll('.nav-links a');
-  navLinksItems.forEach(link => {
+  // 11. Scroll suave para enlaces de navegación
+  var navLinksItems = document.querySelectorAll('.nav-links a');
+  navLinksItems.forEach(function(link) {
     link.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
+      var href = this.getAttribute('href');
       if (href.startsWith('#')) {
         e.preventDefault();
-        const target = document.querySelector(href);
+        var target = document.querySelector(href);
         if (target) {
           if (navLinks) navLinks.classList.remove('active');
           target.scrollIntoView({ behavior: 'smooth' });
@@ -462,139 +625,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-});
 
-// ==================== GALERÍA CARRUSEL AUTOMÁTICO ====================
-function initGaleria() {
-  const track = document.getElementById('galeriaTrack');
-  const dotsContainer = document.getElementById('galeriaDots');
-  const prevBtn = document.getElementById('prevGaleria');
-  const nextBtn = document.getElementById('nextGaleria');
-  
-  if (!track || !dotsContainer) return;
-
-  const slides = track.querySelectorAll('.galeria-slide');
-  const totalSlides = slides.length;
-  let currentIndex = 0;
-  let autoSlideInterval;
-
-  // Crear indicadores (dots)
-  slides.forEach((_, index) => {
-    const dot = document.createElement('div');
-    dot.className = 'galeria-dot' + (index === 0 ? ' active' : '');
-    dot.dataset.index = index;
-    dot.addEventListener('click', () => goToSlide(index));
-    dotsContainer.appendChild(dot);
-  });
-
-  const dots = dotsContainer.querySelectorAll('.galeria-dot');
-
-  // ========== FUNCIÓN MEJORADA ==========
-  function goToSlide(index) {
-    if (index < 0) index = totalSlides - 1;
-    if (index >= totalSlides) index = 0;
-    
-    currentIndex = index;
-    
-    // Obtener el ancho del slide actual
-    const slideWidth = slides[0].offsetWidth;
-    
-    // Aplicar el desplazamiento exacto
-    track.style.transform = 'translateX(-' + (currentIndex * slideWidth) + 'px)';
-    
-    // Actualizar dots
-    dots.forEach((dot, i) => {
-      if (i === currentIndex) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
-  }
-
-  // Función para siguiente slide
-  function nextSlide() {
-    goToSlide(currentIndex + 1);
-  }
-
-  // Función para anterior slide
-  function prevSlide() {
-    goToSlide(currentIndex - 1);
-  }
-
-  // Iniciar auto-reproducción
-  function startAutoSlide() {
-    stopAutoSlide();
-    autoSlideInterval = setInterval(nextSlide, 5000);
-  }
-
-  // Detener auto-reproducción
-  function stopAutoSlide() {
-    if (autoSlideInterval) {
-      clearInterval(autoSlideInterval);
-      autoSlideInterval = null;
-    }
-  }
-
-  // Reiniciar auto-reproducción (al interactuar)
-  function resetAutoSlide() {
-    startAutoSlide();
-  }
-
-  // ========== RECALCULAR EN RESIZE ==========
-  function recalculateSlide() {
-    // Ir al slide actual con el nuevo tamaño
-    goToSlide(currentIndex);
-  }
-
-  // Eventos de los botones
-  if (prevBtn) {
-    prevBtn.addEventListener('click', function() {
-      prevSlide();
-      resetAutoSlide();
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', function() {
-      nextSlide();
-      resetAutoSlide();
-    });
-  }
-
-  // Pausar auto-reproducción al pasar el mouse
-  var carousel = document.querySelector('.galeria-carousel');
-  if (carousel) {
-    carousel.addEventListener('mouseenter', stopAutoSlide);
-    carousel.addEventListener('mouseleave', startAutoSlide);
-    
-    // Para dispositivos táctiles
-    carousel.addEventListener('touchstart', stopAutoSlide, { passive: true });
-    carousel.addEventListener('touchend', startAutoSlide, { passive: true });
-  }
-
-  // ========== RECALCULAR AL CAMBIAR TAMAÑO ==========
-  let resizeTimeout;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(recalculateSlide, 200);
-  });
-
-  // Iniciar auto-reproducción
-  startAutoSlide();
-
-  return { 
-    goToSlide: goToSlide, 
-    nextSlide: nextSlide, 
-    prevSlide: prevSlide, 
-    startAutoSlide: startAutoSlide, 
-    stopAutoSlide: stopAutoSlide 
-  };
-}
-
-// Inicializar la galería cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
-  // Esperar un momento para asegurar que la galería existe
+  // 12. Inicializar galería (después de todo)
   setTimeout(function() {
     initGaleria();
   }, 100);
